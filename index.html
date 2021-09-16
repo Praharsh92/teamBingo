@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- hello from prohorse -->
+    <!-- why are you here though? -->
+    <meta charset="UTF-8" />
+    <title>Bingo</title>
+
+    <!-- This is a development version of Vue.js! -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="http://localhost:8098"></script>
+
+
+    <!-- import stylesheet -->
+    <style>
+      .root {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .mainHeading {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 100;
+        font-size: 48px;
+        text-align: center;
+      }
+      .table {
+        /* width: 60%;
+        min-width: 1000px; */
+        align-self: center;
+        margin-top: 20px;
+
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        font-size: 14px;
+        text-align: center;
+        border-spacing: 4px;
+        /* border: 1px solid #ddd; */
+      }
+      .table td {
+        border-radius: 4px;
+        padding: 15px;
+        height: 100px;
+        width: 150px;
+        line-height: 20px;
+        border: 1px solid #ddd;
+        color: rgb(48, 49, 51);
+        transition: background-color 0.1s ease-in-out;
+      }
+      .table td.selected {
+        /* background: rgb(144, 147, 153);
+        /* background: rgb(235, 238, 245); */
+        /* color: white; */
+        background: rgb(228, 231, 237);
+        color: rgb(48, 49, 51);
+      }
+    </style>
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap" rel="stylesheet">
+  </head>
+
+  <body>
+    <div id="vue_app">
+      <div class="root">
+        <h2 class="mainHeading">
+          KSF Team Bingo
+        </h2>
+        <table class="table">
+          <tr v-for="(row, index) in bingoElements" :key="index">
+            <td  v-for="element in row" :key="element" v-on:click="selectElement(element)" v-bind:class="{ 'selected' : selected[element] }">{{element}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      new Vue({
+        el: "#vue_app",
+        data: {
+          elements: [
+            "Celebrating birthday this month",
+            "Has worked here for 1.5+ years in ksf",
+            "Has visited europe",
+            "Has more than 1 pet",
+            "Woke up before 7 am today",
+            "Can speak 3+ languages",
+            "Is from the same state as you",
+            "Prefers burgers over pizza",
+            "Has more than one siblings",
+            "Born in the same month as you",
+            "Is a night owl",
+            "Is left handed",
+            "Doesn't eat meat",
+            "Plays a musical instrument",
+            "Cant swim",
+            "Is an anime fan",
+            "Has broken a bone",
+            "Does not have a facebook account",
+            "Loves to sing",
+            "Doesnt drink",
+            "Has a sibling in school",
+            "Has done a adventure sport",
+            "Loves sci-fi",
+            "Listens to classic rock",
+            "Loves reading books"
+          ],
+          selected: {}
+        },
+        computed: {
+          bingoElements() {
+            return this.breakArray(this.shuffle(this.elements))
+          }
+        },
+        methods: {
+          selectElement(element) {
+            this.selected[element] ? this.$set(this.selected, element, false) : this.$set(this.selected, element, true)
+          },
+          breakArray(arr) {
+            const tempArr = []
+            for (let i=0; i<5; i++) {
+              tempArr.push(arr.slice(i*5, (i + 1)*5))
+            }
+            return tempArr
+          },
+          shuffle(arr) {
+            let currentIndex = arr.length; let  randomIndex;
+
+            // While there remain elements to shuffle...
+            // eslint-disable-next-line eqeqeq
+            while (currentIndex != 0) {
+
+              // Pick a remaining element...
+              randomIndex = Math.floor(Math.random() * currentIndex);
+              currentIndex--;
+
+              // And swap it with the current element.
+              [arr[currentIndex], arr[randomIndex]] = [
+                arr[randomIndex], arr[currentIndex]];
+            }
+
+            return arr;
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
